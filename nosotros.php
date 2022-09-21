@@ -1,4 +1,4 @@
-<?php include("template/cabecera.php");?>
+<?php include("template/cabecera.php"); ?>
    
 
 <div class="jumbotron">
@@ -8,5 +8,4 @@
 </div>
 
 
-<?php include("template/pie.php");?>
-
+<?php include("template/pie.php"); ?>
