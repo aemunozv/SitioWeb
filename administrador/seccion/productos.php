@@ -2,35 +2,40 @@
 <?php
 
 $txtID=(isset($_POST['txtID']))?$_POST['txtID']:"";
-$txtnombre=(isset($_POST['txtNombre']))?$_POST['txtNombre']:"";
+$txtNombre=(isset($_POST['txtNombre']))?$_POST['txtNombre']:"";
 
 $txtImagen=(isset($_FILES['txtImagen']['name']))?$_FILES['txtImagen']['name']:"";
 $accion=(isset($_POST['accion']))?$_POST['accion']:"";
 
-//Este comando para Verificar que si se esta ejecutando el Submit
-echo $txtID."<br>";
-echo $txtnombre."<br>";
-echo $txtImagen."<br>";
-echo $accion."<br>";
+include("../config/bd.php");
 
-$host="localhost";
-$bd="localhost";
-$usuario="localhost";
-$contrasenia="localhost";
+//Este comando para Verificar que si se esta ejecutando el Submit
+//echo $txtID."<br>";
+//echo $txtnombre."<br>";
+//echo $txtImagen."<br>";
+//echo $accion."<br>";
 
 switch($accion){
-
         case "Agregar":
-          //INSERT INTO `libros`(`id`, `nombre`, `imagen`) VALUES ('[value-1]','[value-2]','[value-3]')
-          echo "Presionado Boton Agregar";
+
+          $sentenciaSQL=$conexion->prepare("INSERT INTO libros( nombre, imagen) VALUES (:nombre, :imagen);");
+          $sentenciaSQL->bindParam(':nombre',$txtNombre);
+          $sentenciaSQL->bindParam(':imagen',$txtImagen);
+          $sentenciaSQL->execute();
           break;
+
         case "Modificar":
             echo "Presionado Boton Modificar";
             break;
         case "Cancelar":
-              echo "Presionado Boton Cancelar";
+              echo "Presionado Boton Cancelar.";
               break;
 }
+$sentenciaSQL=$conexion->prepare("SELECT * FROM libros");
+$sentenciaSQL->execute();
+$listaLibros=$sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
+
+
 
 
 ?>
@@ -86,14 +91,14 @@ switch($accion){
           </tr>
         </thead>
         <tbody>
-          
+          <?php foreach ($listaLibros as $libro) { ?>
           <tr>
-            <td>2</td>
-            <td>Aprende PHP</td>
-            <td>Image.jpg</td>
+            <td><?php echo $libro['id']?> </td>
+            <td><?php echo $libro['nombre']?> </td>
+            <td><?php echo $libro['imagen']?> </td>
             <td>Seleccionar | Borrar</td>
           </tr>
-         
+          <?php } ?>
         </tbody>
       </table>
 

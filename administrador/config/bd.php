@@ -1,16 +1,16 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Administrador del Sitio Web</title>
+<?php
+$host="localhost";
+$bd="sitio";
+$usuario="root";
+$contrasenia="";
 
-</head>
-    <body>
+try {
+        $conexion=new PDO("mysql:host=$host;dbname=$bd",$usuario,$contrasenia);
 
-    Login
+    } catch ( Exception $ex) {
+        
+        $ex->getMessage();
+}
 
-    </body>
-</html>
+?>
 
