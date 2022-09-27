@@ -30,6 +30,23 @@ switch($accion){
         case "Cancelar":
               echo "Presionado Boton Cancelar.";
               break;
+        case "Seleccionar":
+             //echo "Presionado Boton Seleccionar.";
+             $sentenciaSQL=$conexion->prepare("SELECT * FROM libros WHERE id=:id");
+             $sentenciaSQL->bindParam(':id',$txtID);
+             $sentenciaSQL->execute();
+             $libro=$sentenciaSQL->fetch(PDO::FETCH_LAZY);
+
+            $txtNombre=$libro['nombre'];
+            $txtImagen=$libro['imagen'];
+
+             break;
+        case "Borrar":
+             //echo "Presionado Boton Borrar.";
+             $sentenciaSQL=$conexion->prepare("DELETE FROM libros WHERE id=:id");
+             $sentenciaSQL->bindParam(':id',$txtID);
+             $sentenciaSQL->execute();
+             break;
 }
 $sentenciaSQL=$conexion->prepare("SELECT * FROM libros");
 $sentenciaSQL->execute();
@@ -54,17 +71,18 @@ $listaLibros=$sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
 
           <div class = "form-group">
             <label for="txtID">ID:</label>
-            <input type="text" class="form-control" name="txtID" id="txtID"  placeholder="ID">
+            <input type="text" class="form-control" value="<?php echo $txtID; ?>" name="txtID" id="txtID"  placeholder="ID">
           </div>
 
           <div class = "form-group">
-            <label for="txtnombre">Nombre:</label>
-            <input type="text" class="form-control" name="txtNombre" id="txtNombre"  placeholder="Nombre del Libro">
+            <label for="txtNombre">Nombre:</label>
+            <input type="text" class="form-control" value="<?php echo $txtNombre; ?>" name="txtNombre" id="txtNombre"  placeholder="Nombre del Libro">
           </div>
 
           <div class = "form-group">
-            <label for="txtnombre">Imagen:</label>
-            <input type="file" class="form-control" name="txtImagen" id="txtImagen"  placeholder="Nombre del Libro">
+            <label for="txtImagen">Imagen:</label>
+            <?php echo $txtImagen; ?>
+            <input type="file" class="form-control"  name="txtImagen" id="txtImagen"  placeholder="Nombre del Libro">
           </div>
 
           <div class="btn-group" role="group" aria-label="">
@@ -93,10 +111,22 @@ $listaLibros=$sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
         <tbody>
           <?php foreach ($listaLibros as $libro) { ?>
           <tr>
-            <td><?php echo $libro['id']?> </td>
-            <td><?php echo $libro['nombre']?> </td>
-            <td><?php echo $libro['imagen']?> </td>
-            <td>Seleccionar | Borrar</td>
+            <td><?php echo $libro['id']; ?> </td>
+            <td><?php echo $libro['nombre']; ?> </td>
+            <td><?php echo $libro['imagen']; ?> </td>
+            
+            <td>
+              
+                        
+              <form method="post">
+                <input type="hidden" name="txtID" id="ttxID" value="<?php echo $libro['id']; ?>"/>
+
+                <input type="submit" name="accion" value="Seleccionar" class="btn btn-primary"/>
+
+                <input type="submit" name="accion" value="Borrar" class="btn btn-danger"/>
+              </form>
+            </td>
+
           </tr>
           <?php } ?>
         </tbody>
