@@ -1,10 +1,18 @@
 <?php
+session_start();
 if($_POST){
-    header('location:inicio.php');
+    if(($_POST['usuario']=="develoteca")&&($_POST['contasenia']="sistema")){
+
+        $_SESSION['usuario']="ok";
+        $_SESSION['nombreUsario']="Develoteca";
+        header('location:inicio.php');
+    }else{
+      $mensaje="Error El Usuario o Contaseña son Incorrectos.!";
+
+    }
 
 }
 ?>
-
 
 <!doctype html>
 <html lang="en">
@@ -17,32 +25,42 @@ if($_POST){
   </head>
   <body>
  
-     <div class="container">
+      <div class="container">
         <div class="row">
-            <div class="col-md-4">
-            </div>
-            <div class="col-md-4">
-                <br/><br/><br/><br/>
-                <br/><br/><br/><br/>
-                <div class="card">
-                    <div class="card-header">
-                      <form method="POST">
 
-                        <div class = "form-group">
+            <div class="col-md-4">
+
+            </div>
+
+            <div class="col-md-4">
+                <br/><br/><br/><br/><br/><br/><br/><br/>
+                  <div class="card">
+                    <div class="card-header">
+                        Login
+                    </div>
+                    <div class="card-body">
+
+                        <?php if(isset($mensaje)){?>
+                          <div class="alert alert-danger" role="alert">
+                            <?php echo $mensaje; ?>
+                          </div>
+                        <?php } ?>
+                       <form method="POST">
+                         <div class = "form-group">
                             <label>Usuario</label>
                             <input type="text" class="form-control" name="usuario"  placeholder="Ingrese tu usuario">
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">Contraseña:</label>
-                            <input type="password" class="form-control" name="contrasenia" placeholder="Ingrese tu Contraseña">
-                        </div>
-                        <button type="submit" class="btn btn-primary">Entrar al Administrador</button>
+                         </div>
 
-                      </form>
+                         <div class="form-group">
+                            <label>Contraseña:</label>
+                            <input type="password" class="form-control" name="contrasenia" placeholder="Ingrese tu Contraseña">
+                         </div>
+                         <button type="submit" class="btn btn-primary">Entrar al Administrador</button>
+                        </form>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
+                  </div>
+              </div>
+         </div>
+      </div>
   </body>
 </html>
